@@ -1,36 +1,28 @@
 name: Submit Solution
 description: Submit a Python function that solves sparse parity
-title: "[Submission] "
+title: "Submission: "
 labels: ["submission"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## Submit your solution
+        Paste your solution below. It will be automatically evaluated for accuracy, speed, and energy cost (DMD).
 
-        Paste a Python function that finds the secret bit indices in sparse parity data.
-        Your function will be automatically evaluated for accuracy, DMD (energy cost), and speed.
-
-  - type: input
-    id: method_name
-    attributes:
-      label: Method name
-      description: Short name for the leaderboard (e.g. "gf2_optimized", "greedy_search")
-      placeholder: my_solver
-    validations:
-      required: true
+        Your function must use only `numpy` (imported as `np`). It runs in a sandboxed GitHub Actions environment with a 60-second timeout.
 
   - type: textarea
     id: code
     attributes:
-      label: Solution code
-      description: |
-        Paste your `solve()` function. It must have this exact signature.
-        You can use numpy (imported as `np`). No other imports allowed.
+      label: Solution
+      description: Replace the example body with your implementation. Keep the function signature exactly as shown.
       value: |
+        import numpy as np
+
+        # ---- Replace everything below this line with your solution ----
+
         def solve(x, y, n_bits, k_sparse):
             """
-            Find the secret bit indices.
+            Find the secret bit indices in sparse parity data.
 
             Args:
                 x: numpy array (n_samples, n_bits), values in {-1, +1}
@@ -41,41 +33,7 @@ body:
             Returns:
                 list[int]: sorted indices of the k secret bits
             """
-            # Replace this with your solution
             pass
       render: python
     validations:
       required: true
-
-  - type: dropdown
-    id: config
-    attributes:
-      label: Config
-      description: Which problem size to evaluate on
-      options:
-        - "n=20, k=3 (default)"
-        - "n=50, k=3"
-        - "n=100, k=3"
-        - "n=20, k=5"
-      default: 0
-    validations:
-      required: true
-
-  - type: input
-    id: description
-    attributes:
-      label: One-line description
-      description: Brief explanation of your approach
-      placeholder: "GF(2) with pivoting optimization"
-    validations:
-      required: true
-
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Confirmation
-      options:
-        - label: My function uses only numpy (no external dependencies)
-          required: true
-        - label: I understand the function will be executed in a sandboxed environment
-          required: true

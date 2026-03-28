@@ -27,6 +27,7 @@ jobs:
         id: eval
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           PYTHONPATH: src
         run: python3 bin/evaluate

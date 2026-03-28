@@ -28,37 +28,23 @@ N_TRAIN = 500
 N_TEST = 500
 
 
-def parse_issue(body):
-    """Extract fields from GitHub Issue form body."""
-    # Method name
-    method_match = re.search(r'### Method name\s*\n\s*(.+)', body)
-    method_name = method_match.group(1).strip() if method_match else "unknown"
+def parse_issue(body, title=""):
+    """Extract code from issue body, method name from title."""
+    # Method name from title: "Submission: my_solver" -> "my_solver"
+    method_name = re.sub(r'^Submission:\s*', '', title).strip()
+    if not method_name:
+        method_name = f"submission-{os.environ.get('ISSUE_NUMBER', '0')}"
 
     # Code block
-    code_match = re.search(r'### Solution code\s*\n\s*```python?\s*\n(.*?)```', body, re.DOTALL)
+    code_match = re.search(r'### Solution\s*\n\s*```python?\s*\n(.*?)```', body, re.DOTALL)
     if not code_match:
-        # Fallback: look for any python code block
         code_match = re.search(r'```python?\s*\n(.*?)```', body, re.DOTALL)
     code = code_match.group(1).strip() if code_match else None
 
-    # Config
-    config_match = re.search(r'### Config\s*\n\s*(.+)', body)
-    config_str = config_match.group(1).strip() if config_match else "n=20, k=3 (default)"
-
-    # Parse config
+    # Default config: n=20, k=3
     n_bits, k_sparse = 20, 3
-    if "n=50" in config_str:
-        n_bits = 50
-    elif "n=100" in config_str:
-        n_bits = 100
-    if "k=5" in config_str:
-        k_sparse = 5
 
-    # Description
-    desc_match = re.search(r'### One-line description\s*\n\s*(.+)', body)
-    description = desc_match.group(1).strip() if desc_match else ""
-
-    return method_name, code, n_bits, k_sparse, description
+    return method_name, code, n_bits, k_sparse
 
 
 def generate_data(n_bits, k_sparse, n_samples, seed):
@@ -131,11 +117,12 @@ def evaluate_submission(solve_fn, n_bits, k_sparse):
 
 def main():
     body = os.environ.get('ISSUE_BODY', '')
+    title = os.environ.get('ISSUE_TITLE', '')
     if not body:
         print("No ISSUE_BODY env var set", file=sys.stderr)
         sys.exit(1)
 
-    method_name, code, n_bits, k_sparse, description = parse_issue(body)
+    method_name, code, n_bits, k_sparse = parse_issue(body, title)
 
     if not code:
         with open('result.md', 'w') as f:
@@ -223,7 +210,7 @@ def main():
     if passed:
         update = {
             'method': method_name,
-            'description': description,
+            'description': title,
             'n_bits': n_bits,
             'k_sparse': k_sparse,
             'accuracy': round(mean_acc, 4),

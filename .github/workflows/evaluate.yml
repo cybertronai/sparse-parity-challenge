@@ -1,0 +1,69 @@
+name: Evaluate Submission
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  evaluate:
+    if: contains(github.event.issue.labels.*.name, 'submission')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install numpy
+        run: pip install numpy
+
+      - name: Run evaluation
+        id: eval
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PYTHONPATH: src
+        run: python3 bin/evaluate
+        continue-on-error: true
+
+      - name: Post results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('result.md', 'utf8');
+            } catch {
+              body = '❌ Evaluation failed. Check the [workflow logs](' +
+                `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}` +
+                ') for details.';
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+      - name: Update leaderboard
+        if: steps.eval.outcome == 'success'
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        run: |
+          if [ -f leaderboard_update.json ]; then
+            python3 bin/update-leaderboard
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add leaderboard.json
+            git commit -m "Update leaderboard: issue #$ISSUE_NUMBER by @$ISSUE_AUTHOR"
+            git push
+          fi

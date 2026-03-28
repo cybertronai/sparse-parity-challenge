@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+"""Merge leaderboard_update.json into leaderboard.json."""
+
+import json
+import os
+
+LEADERBOARD_PATH = os.path.join(os.path.dirname(__file__), '..', 'leaderboard.json')
+UPDATE_PATH = os.path.join(os.path.dirname(__file__), '..', 'leaderboard_update.json')
+
+with open(LEADERBOARD_PATH) as f:
+    board = json.load(f)
+
+with open(UPDATE_PATH) as f:
+    entry = json.load(f)
+
+entry['author'] = os.environ.get('ISSUE_AUTHOR', 'unknown')
+
+# Replace if same method name exists, otherwise append
+existing = [i for i, e in enumerate(board['entries']) if e['method'] == entry['method']]
+if existing:
+    board['entries'][existing[0]] = entry
+else:
+    board['entries'].append(entry)
+
+# Sort by DMD (lower is better)
+board['entries'].sort(key=lambda e: e.get('dmd', float('inf')))
+
+with open(LEADERBOARD_PATH, 'w') as f:
+    json.dump(board, f, indent=2)
+
+print(f"Leaderboard updated: {entry['method']} (DMD {entry['dmd']:,.1f})")

@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""
+Parse a submission from a GitHub Issue body and evaluate it.
+
+Reads ISSUE_BODY env var, extracts the solve() function,
+wraps with TrackedArray, runs evaluation, writes result.md.
+
+Exit 0 if submission passes accuracy gate, 1 otherwise.
+"""
+
+import os
+import sys
+import re
+import json
+import time
+import textwrap
+import numpy as np
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from sparse_parity.lru_tracker import LRUStackTracker
+from sparse_parity.tracked_numpy import TrackedArray, tracking_context, reset_counter
+
+ACCURACY_GATE = 0.95
+TIMEOUT_SECONDS = 60
+SEEDS = [42, 123, 456]
+N_TRAIN = 500
+N_TEST = 500
+
+
+def parse_issue(body):
+    """Extract fields from GitHub Issue form body."""
+    # Method name
+    method_match = re.search(r'### Method name\s*\n\s*(.+)', body)
+    method_name = method_match.group(1).strip() if method_match else "unknown"
+
+    # Code block
+    code_match = re.search(r'### Solution code\s*\n\s*```python?\s*\n(.*?)```', body, re.DOTALL)
+    if not code_match:
+        # Fallback: look for any python code block
+        code_match = re.search(r'```python?\s*\n(.*?)```', body, re.DOTALL)
+    code = code_match.group(1).strip() if code_match else None
+
+    # Config
+    config_match = re.search(r'### Config\s*\n\s*(.+)', body)
+    config_str = config_match.group(1).strip() if config_match else "n=20, k=3 (default)"
+
+    # Parse config
+    n_bits, k_sparse = 20, 3
+    if "n=50" in config_str:
+        n_bits = 50
+    elif "n=100" in config_str:
+        n_bits = 100
+    if "k=5" in config_str:
+        k_sparse = 5
+
+    # Description
+    desc_match = re.search(r'### One-line description\s*\n\s*(.+)', body)
+    description = desc_match.group(1).strip() if desc_match else ""
+
+    return method_name, code, n_bits, k_sparse, description
+
+
+def generate_data(n_bits, k_sparse, n_samples, seed):
+    """Generate sparse parity data."""
+    rng = np.random.RandomState(seed)
+    secret = sorted(rng.choice(n_bits, k_sparse, replace=False).tolist())
+    x = rng.choice([-1.0, 1.0], size=(n_samples, n_bits))
+    y = np.prod(x[:, secret], axis=1)
+    return x, y, secret
+
+
+def evaluate_submission(solve_fn, n_bits, k_sparse):
+    """Run solve_fn across seeds, collect metrics."""
+    results = []
+
+    for seed in SEEDS:
+        reset_counter()
+        x_train, y_train, secret = generate_data(n_bits, k_sparse, N_TRAIN, seed)
+        x_test, y_test, _ = generate_data(n_bits, k_sparse, N_TEST, seed + 1000)
+        y_test = np.prod(x_test[:, secret], axis=1)
+
+        tracker = LRUStackTracker()
+
+        try:
+            start = time.time()
+            with tracking_context(tracker):
+                x_tracked = TrackedArray(x_train, "x_train", tracker)
+                y_tracked = TrackedArray(y_train, "y_train", tracker)
+                found = solve_fn(x_tracked, y_tracked, n_bits, k_sparse)
+            wall_time = time.time() - start
+        except Exception as e:
+            results.append({
+                'seed': seed,
+                'error': str(e),
+                'accuracy': 0.0,
+            })
+            continue
+
+        # Validate output
+        if found is None:
+            results.append({'seed': seed, 'error': 'returned None', 'accuracy': 0.0})
+            continue
+
+        found = sorted([int(i) for i in found])
+
+        # Test accuracy
+        if len(found) > 0:
+            y_pred = np.prod(x_test[:, found], axis=1)
+            accuracy = float(np.mean(y_pred == y_test))
+        else:
+            accuracy = 0.0
+
+        correct = found == secret
+        summary = tracker.summary()
+
+        results.append({
+            'seed': seed,
+            'found': found,
+            'secret': secret,
+            'correct': correct,
+            'accuracy': accuracy,
+            'dmd': round(summary['dmd'], 1),
+            'time_s': round(wall_time, 6),
+            'reads': summary['reads'],
+            'writes': summary['writes'],
+        })
+
+    return results
+
+
+def main():
+    body = os.environ.get('ISSUE_BODY', '')
+    if not body:
+        print("No ISSUE_BODY env var set", file=sys.stderr)
+        sys.exit(1)
+
+    method_name, code, n_bits, k_sparse, description = parse_issue(body)
+
+    if not code:
+        with open('result.md', 'w') as f:
+            f.write("❌ Could not find a Python code block in the submission.\n\n")
+            f.write("Make sure your `solve()` function is in a ```python code block.\n")
+        sys.exit(1)
+
+    # Check for disallowed imports
+    disallowed = ['import os', 'import sys', 'import subprocess', 'import shutil',
+                  'import socket', 'import http', 'import urllib', '__import__',
+                  'exec(', 'eval(', 'compile(', 'open(']
+    for pattern in disallowed:
+        if pattern in code:
+            with open('result.md', 'w') as f:
+                f.write(f"❌ Disallowed pattern found: `{pattern}`\n\n")
+                f.write("Only `numpy` (as `np`) is allowed. No file I/O, network, or dynamic execution.\n")
+            sys.exit(1)
+
+    # Execute the submitted code to define solve()
+    namespace = {'np': np, 'numpy': np}
+    try:
+        exec(code, namespace)
+    except Exception as e:
+        with open('result.md', 'w') as f:
+            f.write(f"❌ Failed to load function:\n```\n{e}\n```\n")
+        sys.exit(1)
+
+    solve_fn = namespace.get('solve')
+    if solve_fn is None:
+        with open('result.md', 'w') as f:
+            f.write("❌ No `solve()` function found in submission.\n")
+        sys.exit(1)
+
+    # Run evaluation
+    results = evaluate_submission(solve_fn, n_bits, k_sparse)
+
+    # Compute summary
+    accuracies = [r['accuracy'] for r in results]
+    mean_acc = np.mean(accuracies)
+    passed = mean_acc >= ACCURACY_GATE
+
+    dmds = [r['dmd'] for r in results if 'dmd' in r]
+    times = [r['time_s'] for r in results if 'time_s' in r]
+    mean_dmd = np.mean(dmds) if dmds else float('nan')
+    mean_time = np.mean(times) if times else float('nan')
+
+    errors = [r for r in results if 'error' in r]
+
+    # Write result.md
+    with open('result.md', 'w') as f:
+        status = "✅ PASSED" if passed else "❌ FAILED"
+        f.write(f"## {status}: `{method_name}`\n\n")
+        f.write(f"Config: n={n_bits}, k={k_sparse} | Seeds: {SEEDS}\n\n")
+        f.write(f"| Metric | Value |\n")
+        f.write(f"|--------|-------|\n")
+        f.write(f"| Accuracy | {mean_acc:.1%} |\n")
+        f.write(f"| DMD | {mean_dmd:,.1f} |\n")
+        f.write(f"| Time | {mean_time:.4f}s |\n")
+        f.write(f"| Seeds passed | {sum(1 for a in accuracies if a >= ACCURACY_GATE)}/{len(SEEDS)} |\n\n")
+
+        if errors:
+            f.write("### Errors\n\n")
+            for r in errors:
+                f.write(f"- Seed {r['seed']}: `{r['error']}`\n")
+            f.write("\n")
+
+        if passed:
+            f.write(f"Your submission will be added to the leaderboard.\n")
+        else:
+            f.write(f"Accuracy must be ≥{ACCURACY_GATE:.0%} across all seeds to pass.\n")
+
+        # Per-seed details
+        f.write("\n<details><summary>Per-seed results</summary>\n\n")
+        for r in results:
+            if 'error' in r:
+                f.write(f"- Seed {r['seed']}: ERROR - {r['error']}\n")
+            else:
+                check = "✅" if r['accuracy'] >= ACCURACY_GATE else "❌"
+                f.write(f"- Seed {r['seed']}: {check} acc={r['accuracy']:.1%} "
+                        f"DMD={r['dmd']:,.1f} time={r['time_s']:.4f}s "
+                        f"correct={r['correct']}\n")
+        f.write("\n</details>\n")
+
+    # Write leaderboard update file if passed
+    if passed:
+        update = {
+            'method': method_name,
+            'description': description,
+            'n_bits': n_bits,
+            'k_sparse': k_sparse,
+            'accuracy': round(mean_acc, 4),
+            'dmd': round(mean_dmd, 1),
+            'time_s': round(mean_time, 6),
+            'seeds': SEEDS,
+            'issue': int(os.environ.get('ISSUE_NUMBER', 0)),
+        }
+        with open('leaderboard_update.json', 'w') as f:
+            json.dump(update, f, indent=2)
+
+    sys.exit(0 if passed else 1)
+
+
+if __name__ == '__main__':
+    main()

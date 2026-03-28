@@ -27,7 +27,7 @@ def _timeout_handler(signum, frame):
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from sparse_parity.lru_tracker import LRUStackTracker
+from sparse_parity.tracker import MemTracker
 from sparse_parity.tracked_numpy import TrackedArray, tracking_context, reset_counter
 
 ACCURACY_GATE = 0.95
@@ -75,7 +75,7 @@ def evaluate_submission(solve_fn, n_bits, k_sparse):
         x_test, y_test, _ = generate_data(n_bits, k_sparse, N_TEST, seed + 1000)
         y_test = np.prod(x_test[:, secret], axis=1)
 
-        tracker = LRUStackTracker()
+        tracker = MemTracker()
 
         try:
             signal.signal(signal.SIGALRM, _timeout_handler)
@@ -118,7 +118,7 @@ def evaluate_submission(solve_fn, n_bits, k_sparse):
             'secret': secret,
             'correct': correct,
             'accuracy': accuracy,
-            'dmd': round(summary['dmd'], 1),
+            'dmc': round(summary['dmc'], 1),
             'time_s': round(wall_time, 6),
             'reads': summary['reads'],
             'writes': summary['writes'],
@@ -176,9 +176,9 @@ def main():
     mean_acc = np.mean(accuracies)
     passed = mean_acc >= ACCURACY_GATE
 
-    dmds = [r['dmd'] for r in results if 'dmd' in r]
+    dmds = [r['dmc'] for r in results if 'dmc' in r]
     times = [r['time_s'] for r in results if 'time_s' in r]
-    mean_dmd = np.mean(dmds) if dmds else float('nan')
+    mean_dmc = np.mean(dmds) if dmds else float('nan')
     mean_time = np.mean(times) if times else float('nan')
 
     errors = [r for r in results if 'error' in r]
@@ -191,7 +191,7 @@ def main():
         f.write(f"| Metric | Value |\n")
         f.write(f"|--------|-------|\n")
         f.write(f"| Accuracy | {mean_acc:.1%} |\n")
-        f.write(f"| DMD | {mean_dmd:,.1f} |\n")
+        f.write(f"| DMC | {mean_dmc:,.1f} |\n")
         f.write(f"| Time | {mean_time:.4f}s |\n")
         f.write(f"| Seeds passed | {sum(1 for a in accuracies if a >= ACCURACY_GATE)}/{len(SEEDS)} |\n\n")
 
@@ -214,7 +214,7 @@ def main():
             else:
                 check = "✅" if r['accuracy'] >= ACCURACY_GATE else "❌"
                 f.write(f"- Seed {r['seed']}: {check} acc={r['accuracy']:.1%} "
-                        f"DMD={r['dmd']:,.1f} time={r['time_s']:.4f}s "
+                        f"DMC={r['dmc']:,.1f} time={r['time_s']:.4f}s "
                         f"correct={r['correct']}\n")
         f.write("\n</details>\n")
 
@@ -226,7 +226,7 @@ def main():
             'n_bits': n_bits,
             'k_sparse': k_sparse,
             'accuracy': round(mean_acc, 4),
-            'dmd': round(mean_dmd, 1),
+            'dmc': round(mean_dmc, 1),
             'time_s': round(mean_time, 6),
             'seeds': SEEDS,
             'issue': int(os.environ.get('ISSUE_NUMBER', 0)),

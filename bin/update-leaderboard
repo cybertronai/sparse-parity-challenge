@@ -22,10 +22,10 @@ if existing:
 else:
     board['entries'].append(entry)
 
-# Sort by DMD (lower is better)
-board['entries'].sort(key=lambda e: e.get('dmd', float('inf')))
+# Sort by DMC (lower is better)
+board['entries'].sort(key=lambda e: e.get('dmc', float('inf')))
 
 with open(LEADERBOARD_PATH, 'w') as f:
     json.dump(board, f, indent=2)
 
-print(f"Leaderboard updated: {entry['method']} (DMD {entry['dmd']:,.1f})")
+print(f"Leaderboard updated: {entry['method']} (DMC {entry['dmc']:,.1f})")

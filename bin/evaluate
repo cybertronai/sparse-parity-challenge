@@ -13,8 +13,17 @@ import sys
 import re
 import json
 import time
+import signal
 import textwrap
 import numpy as np
+
+
+class TimeoutError(Exception):
+    pass
+
+
+def _timeout_handler(signum, frame):
+    raise TimeoutError(f"Execution exceeded {TIMEOUT_SECONDS}s limit")
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -69,12 +78,15 @@ def evaluate_submission(solve_fn, n_bits, k_sparse):
         tracker = LRUStackTracker()
 
         try:
+            signal.signal(signal.SIGALRM, _timeout_handler)
+            signal.alarm(TIMEOUT_SECONDS)
             start = time.time()
             with tracking_context(tracker):
                 x_tracked = TrackedArray(x_train, "x_train", tracker)
                 y_tracked = TrackedArray(y_train, "y_train", tracker)
                 found = solve_fn(x_tracked, y_tracked, n_bits, k_sparse)
             wall_time = time.time() - start
+            signal.alarm(0)
         except Exception as e:
             results.append({
                 'seed': seed,

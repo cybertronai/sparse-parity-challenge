@@ -2,5 +2,22 @@
   "challenge": "sparse-parity",
   "metric": "dmd",
   "metric_direction": "lower_is_better",
-  "entries": []
+  "entries": [
+    {
+      "method": "gf2_gaussian_elim",
+      "description": "Submission: gf2_gaussian_elim",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 13554867.0,
+      "time_s": 0.112059,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 4,
+      "author": "0bserver07"
+    }
+  ]
 }

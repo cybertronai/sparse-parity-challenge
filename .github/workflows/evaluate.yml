@@ -12,6 +12,7 @@ jobs:
     permissions:
       issues: write
       contents: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +34,7 @@ jobs:
         run: python3 bin/evaluate
         continue-on-error: true
 
-      - name: Post results
+      - name: Post results comment
         if: always()
         uses: actions/github-script@v7
         with:
@@ -54,17 +55,85 @@ jobs:
               body: body
             });
 
-      - name: Update leaderboard
+      - name: Handle failed submission
+        if: steps.eval.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Add "failed" label
+            try {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['failed']
+              });
+            } catch {
+              // Label might not exist yet, create it
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'failed',
+                color: 'e11d48',
+                description: 'Submission did not pass accuracy gate'
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['failed']
+              });
+            }
+            // Close the issue
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
+
+      - name: Open leaderboard PR
         if: steps.eval.outcome == 'success'
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -f leaderboard_update.json ]; then
-            python3 bin/update-leaderboard
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add leaderboard.json
-            git commit -m "Update leaderboard: issue #$ISSUE_NUMBER by @$ISSUE_AUTHOR"
-            git push
+          if [ ! -f leaderboard_update.json ]; then
+            echo "No leaderboard_update.json found"
+            exit 0
           fi
+
+          # Update leaderboard JSON
+          python3 bin/update-leaderboard
+
+          # Render to README
+          python3 bin/render-leaderboard
+
+          # Extract method name for branch/PR
+          METHOD=$(python3 -c "import json; print(json.load(open('leaderboard_update.json'))['method'])")
+          DMC=$(python3 -c "import json; print(f\"{json.load(open('leaderboard_update.json'))['dmc']:,.0f}\")")
+
+          # Create branch and commit
+          BRANCH="leaderboard/issue-${ISSUE_NUMBER}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add leaderboard.json README.md
+          git commit -m "Leaderboard: ${METHOD} (DMC ${DMC}) from #${ISSUE_NUMBER}"
+          git push origin "$BRANCH"
+
+          # Open PR
+          gh pr create \
+            --title "Leaderboard: ${METHOD} (DMC ${DMC}) #${ISSUE_NUMBER}" \
+            --body "Auto-generated from passing submission #${ISSUE_NUMBER} by @${ISSUE_AUTHOR}.
+
+          | Metric | Value |
+          |--------|-------|
+          | Method | ${METHOD} |
+          | DMC | ${DMC} |
+
+          Merge to update the leaderboard." \
+            --base main \
+            --head "$BRANCH"

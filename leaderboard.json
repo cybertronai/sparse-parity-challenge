@@ -1,6 +1,6 @@
 {
   "challenge": "sparse-parity",
-  "metric": "dmd",
+  "metric": "dmc",
   "metric_direction": "lower_is_better",
   "entries": [
     {

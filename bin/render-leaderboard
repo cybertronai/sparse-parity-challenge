@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+"""Render leaderboard.json into the README.md markdown table."""
+
+import json
+import os
+import re
+
+ROOT = os.path.join(os.path.dirname(__file__), '..')
+LEADERBOARD_PATH = os.path.join(ROOT, 'leaderboard.json')
+README_PATH = os.path.join(ROOT, 'README.md')
+
+with open(LEADERBOARD_PATH) as f:
+    board = json.load(f)
+
+entries = board.get('entries', [])
+
+if not entries:
+    table = "| Rank | Method | Author | DMC | Time | Accuracy | Issue |\n"
+    table += "|------|--------|--------|-----|------|----------|-------|\n"
+    table += "| -- | *No submissions yet* | -- | -- | -- | -- | -- |\n"
+else:
+    table = "| Rank | Method | Author | DMC | Time | Accuracy | Issue |\n"
+    table += "|------|--------|--------|-----|------|----------|-------|\n"
+    for i, e in enumerate(entries, 1):
+        issue_num = e.get('issue', '')
+        issue_link = f"[#{issue_num}](../../issues/{issue_num})" if issue_num else "--"
+        table += (
+            f"| {i} "
+            f"| {e.get('method', '?')} "
+            f"| @{e.get('author', '?')} "
+            f"| {e.get('dmc', 0):,.0f} "
+            f"| {e.get('time_s', 0):.4f}s "
+            f"| {e.get('accuracy', 0):.0%} "
+            f"| {issue_link} |\n"
+        )
+
+with open(README_PATH) as f:
+    readme = f.read()
+
+readme = re.sub(
+    r'<!-- LEADERBOARD_START -->.*?<!-- LEADERBOARD_END -->',
+    f'<!-- LEADERBOARD_START -->\n{table}<!-- LEADERBOARD_END -->',
+    readme,
+    flags=re.DOTALL,
+)
+
+with open(README_PATH, 'w') as f:
+    f.write(readme)
+
+print(f"Rendered {len(entries)} entries to README.md")

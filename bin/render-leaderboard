@@ -27,7 +27,7 @@ else:
         table += (
             f"| {i} "
             f"| {e.get('method', '?')} "
-            f"| @{e.get('author', '?')} "
+            f"| [@{e.get('author', '?')}](https://github.com/{e.get('author', '')}) "
             f"| {e.get('dmc', 0):,.0f} "
             f"| {e.get('time_s', 0):.4f}s "
             f"| {e.get('accuracy', 0):.0%} "

@@ -52,8 +52,8 @@ Ranked by DMD (Data Movement Distance) -- lower is better.
 <!-- LEADERBOARD_START -->
 | Rank | Method | Author | DMC | Time | Accuracy | Issue |
 |------|--------|--------|-----|------|----------|-------|
-| 1 | GF(2) Minimal (2n samples) | @SethTS | 601,157 | 0.0087s | 100% | [#17](../../issues/17) |
-| 2 | GF(2) Gaussian Elimination | @SethTS | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
+| 1 | GF(2) Minimal (2n samples) | [@SethTS](https://github.com/SethTS) | 601,157 | 0.0087s | 100% | [#17](../../issues/17) |
+| 2 | GF(2) Gaussian Elimination | [@SethTS](https://github.com/SethTS) | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
 <!-- LEADERBOARD_END -->
 
 ## The metric: DMD

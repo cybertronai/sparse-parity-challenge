@@ -11,7 +11,11 @@
       "accuracy": 1.0,
       "dmc": 286010.7,
       "time_s": 0.0044,
-      "seeds": [42, 123, 456],
+      "seeds": [
+        42,
+        123,
+        456
+      ],
       "issue": 19,
       "author": "SethTS"
     },
@@ -23,7 +27,11 @@
       "accuracy": 1.0,
       "dmc": 601156.6,
       "time_s": 0.008694,
-      "seeds": [42, 123, 456],
+      "seeds": [
+        42,
+        123,
+        456
+      ],
       "issue": 17,
       "author": "SethTS"
     },
@@ -35,9 +43,29 @@
       "accuracy": 1.0,
       "dmc": 11164685.1,
       "time_s": 0.101097,
-      "seeds": [42, 123, 456],
+      "seeds": [
+        42,
+        123,
+        456
+      ],
       "issue": 13,
       "author": "SethTS"
+    },
+    {
+      "method": "new gf2 proposed candidate",
+      "description": "Submission: new gf2 proposed candidate",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 24397703.8,
+      "time_s": 0.001917,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 22,
+      "author": "yaroslavvb"
     }
   ]
 }

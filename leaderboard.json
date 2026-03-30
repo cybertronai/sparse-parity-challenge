@@ -18,6 +18,22 @@
       ],
       "issue": 4,
       "author": "0bserver07"
+    },
+    {
+      "method": "submission-11",
+      "description": "Submission:",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 14693169.1,
+      "time_s": 0.109781,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 11,
+      "author": "yaroslavvb"
     }
   ]
 }

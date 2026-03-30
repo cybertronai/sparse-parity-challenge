@@ -125,7 +125,7 @@ jobs:
           git push origin "$BRANCH"
 
           # Open PR
-          gh pr create \
+          PR_URL=$(gh pr create \
             --title "Leaderboard: ${METHOD} (DMC ${DMC}) #${ISSUE_NUMBER}" \
             --body "Auto-generated from passing submission #${ISSUE_NUMBER} by @${ISSUE_AUTHOR}.
 
@@ -136,4 +136,8 @@ jobs:
 
           Merge to update the leaderboard." \
             --base main \
-            --head "$BRANCH"
+            --head "$BRANCH")
+
+          # Close the submission issue with link to PR
+          gh issue close "$ISSUE_NUMBER" --comment "Leaderboard PR created: ${PR_URL}"
+          gh issue edit "$ISSUE_NUMBER" --add-label "passed"

@@ -6,33 +6,21 @@ body:
   - type: markdown
     attributes:
       value: |
-        Paste your solution below. It will be automatically evaluated for accuracy, speed, and energy cost (DMD).
+        Paste your solution below. It will be automatically evaluated for accuracy, speed, and energy cost (DMC).
 
         Your function must use only `numpy` (imported as `np`). It runs in a sandboxed GitHub Actions environment with a 60-second timeout.
+
+        **Type your method name in the issue title above** (after "Submission: ").
 
   - type: textarea
     id: code
     attributes:
       label: Solution
-      description: Replace the example body with your implementation. Keep the function signature exactly as shown.
+      description: Replace the entire contents below with your solve() function.
       value: |
-        import numpy as np
-
-        # ---- Replace everything below this line with your solution ----
-
         def solve(x, y, n_bits, k_sparse):
-            """
-            Find the secret bit indices in sparse parity data.
-
-            Args:
-                x: numpy array (n_samples, n_bits), values in {-1, +1}
-                y: numpy array (n_samples,), values in {-1, +1}
-                n_bits: int, total number of bits
-                k_sparse: int, number of secret bits
-
-            Returns:
-                list[int]: sorted indices of the k secret bits
-            """
+            # Your code here. numpy is available as np.
+            # Return sorted list of k secret bit indices.
             pass
       render: python
     validations:

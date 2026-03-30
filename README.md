@@ -38,7 +38,7 @@ def solve(x, y, n_bits, k_sparse):
 Ranked by DMD (Data Movement Distance) -- lower is better.
 
 <!-- LEADERBOARD_START -->
-| Rank | Method | Author | DMD | Time | Accuracy | Issue |
+| Rank | Method | Author | DMC | Time | Accuracy | Issue |
 |------|--------|--------|-----|------|----------|-------|
 | -- | *No submissions yet* | -- | -- | -- | -- | -- |
 <!-- LEADERBOARD_END -->

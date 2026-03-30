@@ -40,7 +40,7 @@ Ranked by DMD (Data Movement Distance) -- lower is better.
 <!-- LEADERBOARD_START -->
 | Rank | Method | Author | DMC | Time | Accuracy | Issue |
 |------|--------|--------|-----|------|----------|-------|
-| -- | *No submissions yet* | -- | -- | -- | -- | -- |
+| 1 | GF(2) Gaussian Elimination | @SethTS | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
 <!-- LEADERBOARD_END -->
 
 ## The metric: DMD

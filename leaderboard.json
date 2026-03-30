@@ -4,6 +4,18 @@
   "metric_direction": "lower_is_better",
   "entries": [
     {
+      "method": "GF(2) Ultra-Minimal (n+1 samples, retry)",
+      "description": "Submission: GF(2) Ultra-Minimal (n+1 samples, retry)",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 286010.7,
+      "time_s": 0.0044,
+      "seeds": [42, 123, 456],
+      "issue": 19,
+      "author": "SethTS"
+    },
+    {
       "method": "GF(2) Minimal (2n samples)",
       "description": "Submission: GF(2) Minimal (2n samples)",
       "n_bits": 20,
@@ -11,11 +23,7 @@
       "accuracy": 1.0,
       "dmc": 601156.6,
       "time_s": 0.008694,
-      "seeds": [
-        42,
-        123,
-        456
-      ],
+      "seeds": [42, 123, 456],
       "issue": 17,
       "author": "SethTS"
     },
@@ -27,11 +35,7 @@
       "accuracy": 1.0,
       "dmc": 11164685.1,
       "time_s": 0.101097,
-      "seeds": [
-        42,
-        123,
-        456
-      ],
+      "seeds": [42, 123, 456],
       "issue": 13,
       "author": "SethTS"
     }

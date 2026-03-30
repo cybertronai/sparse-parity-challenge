@@ -4,6 +4,22 @@
   "metric_direction": "lower_is_better",
   "entries": [
     {
+      "method": "GF(2) Minimal (2n samples)",
+      "description": "Submission: GF(2) Minimal (2n samples)",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 601156.6,
+      "time_s": 0.008694,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 17,
+      "author": "SethTS"
+    },
+    {
       "method": "GF(2) Gaussian Elimination",
       "description": "Submission: GF(2) Gaussian Elimination",
       "n_bits": 20,

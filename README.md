@@ -33,6 +33,18 @@ def solve(x, y, n_bits, k_sparse):
 - Must achieve ≥95% accuracy across 3 seeds
 - Evaluated with [TrackedArray](https://github.com/cybertronai/SutroYaro/blob/main/src/sparse_parity/tracked_numpy.py) for automatic DMD measurement
 
+### Submitting via CLI
+
+```bash
+# Create the issue with your solution
+gh issue create --repo cybertronai/sparse-parity-challenge \
+  --title "Submission: your_method_name" \
+  --body "$(cat your_solution.py)"
+
+# Add the label to trigger evaluation (GitHub CLI doesn't apply template labels)
+gh issue edit <number> --repo cybertronai/sparse-parity-challenge --add-label submission
+```
+
 ## Leaderboard
 
 Ranked by DMD (Data Movement Distance) -- lower is better.

@@ -4,6 +4,22 @@
   "metric_direction": "lower_is_better",
   "entries": [
     {
+      "method": "passive_gf2_rref_minimal_22rows",
+      "description": "Submission: passive_gf2_rref_minimal_22rows",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 45903.8,
+      "time_s": 0.000153,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 24,
+      "author": "Hydral8"
+    },
+    {
       "method": "GF(2) Ultra-Minimal (n+1 samples, retry)",
       "description": "Submission: GF(2) Ultra-Minimal (n+1 samples, retry)",
       "n_bits": 20,

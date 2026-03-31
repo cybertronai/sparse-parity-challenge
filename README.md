@@ -57,6 +57,7 @@ Ranked by DMD (Data Movement Distance) -- lower is better.
 | 3 | GF(2) Minimal (2n samples) | [@SethTS](https://github.com/SethTS) | 601,157 | 0.0087s | 100% | [#17](../../issues/17) |
 | 4 | GF(2) Gaussian Elimination | [@SethTS](https://github.com/SethTS) | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
 | 5 | new gf2 proposed candidate | [@yaroslavvb](https://github.com/yaroslavvb) | 24,397,704 | 0.0019s | 100% | [#22](../../issues/22) |
+| 6 | submission-27 | [@yaroslavvb](https://github.com/yaroslavvb) | 24,397,704 | 0.0022s | 100% | [#27](../../issues/27) |
 <!-- LEADERBOARD_END -->
 
 ## The metric: DMD

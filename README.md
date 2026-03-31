@@ -35,13 +35,13 @@ def solve(x, y, n_bits, k_sparse):
 
 ### Submitting via CLI
 
+Adding labels requires collaborator access. If you're not a collaborator, use the web form above -- it auto-applies the label and works for everyone.
+
 ```bash
-# Create the issue with your solution
+# Collaborators only: create issue + add label
 gh issue create --repo cybertronai/sparse-parity-challenge \
   --title "Submission: your_method_name" \
   --body "$(cat your_solution.py)"
-
-# Add the label to trigger evaluation (GitHub CLI doesn't apply template labels)
 gh issue edit <number> --repo cybertronai/sparse-parity-challenge --add-label submission
 ```
 

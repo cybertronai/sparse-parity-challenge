@@ -4,6 +4,22 @@
   "metric_direction": "lower_is_better",
   "entries": [
     {
+      "method": "Sequential Elimination",
+      "description": "Submission: Sequential Elimination",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 19153.1,
+      "time_s": 0.008529,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 30,
+      "author": "Hydral8"
+    },
+    {
       "method": "passive_gf2_rref_minimal_22rows",
       "description": "Submission: passive_gf2_rref_minimal_22rows",
       "n_bits": 20,

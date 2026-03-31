@@ -52,11 +52,12 @@ Ranked by DMD (Data Movement Distance) -- lower is better.
 <!-- LEADERBOARD_START -->
 | Rank | Method | Author | DMC | Time | Accuracy | Issue |
 |------|--------|--------|-----|------|----------|-------|
-| 1 | passive_gf2_rref_minimal_22rows | [@Hydral8](https://github.com/Hydral8) | 45,904 | 0.0002s | 100% | [#24](../../issues/24) |
-| 2 | GF(2) Ultra-Minimal (n+1 samples, retry) | [@SethTS](https://github.com/SethTS) | 286,011 | 0.0044s | 100% | [#19](../../issues/19) |
-| 3 | GF(2) Minimal (2n samples) | [@SethTS](https://github.com/SethTS) | 601,157 | 0.0087s | 100% | [#17](../../issues/17) |
-| 4 | GF(2) Gaussian Elimination | [@SethTS](https://github.com/SethTS) | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
-| 5 | new gf2 proposed candidate | [@yaroslavvb](https://github.com/yaroslavvb) | 24,397,704 | 0.0019s | 100% | [#22](../../issues/22) |
+| 1 | Sequential Elimination | [@Hydral8](https://github.com/Hydral8) | 19,153 | 0.0085s | 100% | [#30](../../issues/30) |
+| 2 | passive_gf2_rref_minimal_22rows | [@Hydral8](https://github.com/Hydral8) | 45,904 | 0.0002s | 100% | [#24](../../issues/24) |
+| 3 | GF(2) Ultra-Minimal (n+1 samples, retry) | [@SethTS](https://github.com/SethTS) | 286,011 | 0.0044s | 100% | [#19](../../issues/19) |
+| 4 | GF(2) Minimal (2n samples) | [@SethTS](https://github.com/SethTS) | 601,157 | 0.0087s | 100% | [#17](../../issues/17) |
+| 5 | GF(2) Gaussian Elimination | [@SethTS](https://github.com/SethTS) | 11,164,685 | 0.1011s | 100% | [#13](../../issues/13) |
+| 6 | new gf2 proposed candidate | [@yaroslavvb](https://github.com/yaroslavvb) | 24,397,704 | 0.0019s | 100% | [#22](../../issues/22) |
 <!-- LEADERBOARD_END -->
 
 ## The metric: DMD

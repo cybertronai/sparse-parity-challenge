@@ -68,6 +68,22 @@
       "author": "SethTS"
     },
     {
+      "method": "SMT Backtracking (n+1 samples) (v1)",
+      "description": "Submission: SMT Backtracking (n+1 samples) (v1)",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 1625260.2,
+      "time_s": 0.006268,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 33,
+      "author": "0bserver07"
+    },
+    {
       "method": "GF(2) Gaussian Elimination",
       "description": "Submission: GF(2) Gaussian Elimination",
       "n_bits": 20,

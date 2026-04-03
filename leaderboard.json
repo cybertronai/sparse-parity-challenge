@@ -100,6 +100,22 @@
       "author": "SethTS"
     },
     {
+      "method": "sparse parity vanilla try",
+      "description": "Submission: sparse parity vanilla try",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 13518254.1,
+      "time_s": 0.109144,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 35,
+      "author": "yaroslavvb"
+    },
+    {
       "method": "new gf2 proposed candidate",
       "description": "Submission: new gf2 proposed candidate",
       "n_bits": 20,

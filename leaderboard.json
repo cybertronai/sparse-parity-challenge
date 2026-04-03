@@ -100,6 +100,22 @@
       "author": "SethTS"
     },
     {
+      "method": "new solution coded live during the Friday Rochester seminar.",
+      "description": "Submission: new solution coded live during the Friday Rochester seminar.",
+      "n_bits": 20,
+      "k_sparse": 3,
+      "accuracy": 1.0,
+      "dmc": 14748438.6,
+      "time_s": 0.107484,
+      "seeds": [
+        42,
+        123,
+        456
+      ],
+      "issue": 37,
+      "author": "yaroslavvb"
+    },
+    {
       "method": "new gf2 proposed candidate",
       "description": "Submission: new gf2 proposed candidate",
       "n_bits": 20,

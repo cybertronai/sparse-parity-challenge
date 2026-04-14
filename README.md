@@ -61,13 +61,15 @@ Ranked by DMD (Data Movement Distance) -- lower is better.
 | 7 | new gf2 proposed candidate | [@yaroslavvb](https://github.com/yaroslavvb) | 24,397,704 | 0.0019s | 100% | [#22](../../issues/22) |
 <!-- LEADERBOARD_END -->
 
-## The metric: DMD
+## The metric
 
-Your function's numpy operations are automatically tracked. Every array read has a cost based on how deep the data sits in an LRU stack (how long ago it was last written). DMD = sqrt(stack_distance) per element read. Total DMD = sum of all read DMDs.
+**Current evaluation**: TrackedArray (element-level, numpy-aware). Your numpy operations get automatically tracked. DMD = sum of sqrt(stack_distance) per element read. Lower = better.
 
-Low DMD = data stays near the top of the stack = cache-friendly = less energy.
+**New (in transition)**: [ByteDMD](https://github.com/cybertronai/ByteDMD) -- byte-granularity, pure Python, deterministic. Vendored at `src/bytedmd/`. Reads cost `ceil(sqrt(depth))` per byte, writes are free. Tests in `tests/test_bytedmd.py`.
 
-The neural network baseline (SGD) has DMD ~1.3M. The best known solution (KM influence estimation) has DMD ~3,600. Can you beat it?
+The transition is in progress. Existing leaderboard entries are measured with the legacy TrackedArray metric. New submissions can be evaluated under both metrics once `bin/evaluate` is updated. See `cybertronai/ByteDMD` for the spec.
+
+The neural network baseline (SGD) has DMD ~1.3M under TrackedArray. The best known solution (KM influence estimation) has DMD ~3,600. Can you beat it?
 
 ## Research context
 

@@ -1,0 +1,65 @@
+{
+  "experiment": "exp_lowrank_bytedmd",
+  "config": {
+    "n_bits": 20,
+    "k_sparse": 3,
+    "seed": 42,
+    "hidden": 8,
+    "batch": 4,
+    "n_train": 8,
+    "epochs": 2,
+    "lr": 0.1,
+    "note": "demo config \u2014 does not converge; ByteDMD profile only"
+  },
+  "ranks": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    10,
+    20
+  ],
+  "results": {
+    "1": {
+      "bytedmd": 45395,
+      "elapsed_ms": 238.6
+    },
+    "2": {
+      "bytedmd": 81760,
+      "elapsed_ms": 518.8
+    },
+    "3": {
+      "bytedmd": 120888,
+      "elapsed_ms": 888.7
+    },
+    "4": {
+      "bytedmd": 164053,
+      "elapsed_ms": 1436.9
+    },
+    "5": {
+      "bytedmd": 208895,
+      "elapsed_ms": 1943.7
+    },
+    "8": {
+      "bytedmd": 359924,
+      "elapsed_ms": 4004.1
+    },
+    "10": {
+      "bytedmd": 474454,
+      "elapsed_ms": 5907.2
+    },
+    "20": {
+      "bytedmd": 1141221,
+      "elapsed_ms": 20376.6
+    }
+  },
+  "full_rank": 20,
+  "floor_read_n": 70,
+  "known_comparison": {
+    "km_min": 268,
+    "gf2": 101501
+  },
+  "geometric_lower_bound_factor": 0.3849
+}

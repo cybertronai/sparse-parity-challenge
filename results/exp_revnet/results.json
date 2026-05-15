@@ -1,0 +1,53 @@
+{
+  "experiment": "exp_revnet",
+  "config": {
+    "n_bits": 20,
+    "k_sparse": 3,
+    "n_train": 1000,
+    "n_test": 200,
+    "hidden": 200,
+    "lr": 0.1,
+    "wd": 0.01,
+    "max_epochs": 200,
+    "seed": 42,
+    "patience": 10,
+    "batch_size": 32
+  },
+  "results": {
+    "baseline": {
+      "best_test_acc": 1.0,
+      "total_epochs": 40,
+      "dmc": 1278460.3,
+      "ard": 8503.7,
+      "total_floats": 24470,
+      "n_params": 4401,
+      "act_dmc": 30710.7,
+      "weight_dmc": 1301692.3,
+      "elapsed_s": 0.1
+    },
+    "revnet H=100": {
+      "best_test_acc": 0.995,
+      "total_epochs": 500,
+      "dmc": 24532881.6,
+      "ard": 53958.8,
+      "total_floats": 165567,
+      "n_params": 24601,
+      "H": 100,
+      "act_dmc": 149397.0,
+      "weight_dmc": 26206210.0,
+      "elapsed_s": 0.91
+    },
+    "revnet H=36": {
+      "best_test_acc": 1.0,
+      "total_epochs": 10,
+      "dmc": 1536834.9,
+      "ard": 8395.4,
+      "total_floats": 27391,
+      "n_params": 4249,
+      "H": 36,
+      "act_dmc": 20575.2,
+      "weight_dmc": 1641989.6,
+      "elapsed_s": 0.03
+    }
+  }
+}

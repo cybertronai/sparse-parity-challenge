@@ -1,0 +1,136 @@
+{
+  "experiment": "exp_lowrank_w1",
+  "config": {
+    "n_bits": 20,
+    "k_sparse": 3,
+    "n_train": 1000,
+    "n_test": 200,
+    "hidden": 200,
+    "lr": 0.1,
+    "wd": 0.01,
+    "max_epochs": 500,
+    "seed": 42,
+    "patience": 10,
+    "batch_size": 32
+  },
+  "ranks": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    10,
+    20
+  ],
+  "direct_baseline": {
+    "rank": "direct",
+    "best_acc": 1.0,
+    "converged_epoch": 40,
+    "total_epochs": 40,
+    "dmc": 1278460.3,
+    "ard": 8503.7,
+    "total_floats": 24470,
+    "n_params": 4401,
+    "U_dmc": 797355.6,
+    "elapsed_s": 0.13
+  },
+  "results": [
+    {
+      "rank": 1,
+      "best_acc": 0.565,
+      "converged_epoch": null,
+      "total_epochs": 500,
+      "dmc": 140946.5,
+      "ard": 1687.6,
+      "total_floats": 5975,
+      "n_params": 621,
+      "elapsed_s": 1.16,
+      "U_dmc": 33698.1
+    },
+    {
+      "rank": 2,
+      "best_acc": 0.55,
+      "converged_epoch": null,
+      "total_epochs": 500,
+      "dmc": 197882.5,
+      "ard": 2215.7,
+      "total_floats": 7280,
+      "n_params": 841,
+      "elapsed_s": 1.12,
+      "U_dmc": 72960.3
+    },
+    {
+      "rank": 3,
+      "best_acc": 1.0,
+      "converged_epoch": 29,
+      "total_epochs": 29,
+      "dmc": 262123.1,
+      "ard": 2754.2,
+      "total_floats": 8585,
+      "n_params": 1061,
+      "elapsed_s": 0.07,
+      "U_dmc": 117193.7
+    },
+    {
+      "rank": 4,
+      "best_acc": 1.0,
+      "converged_epoch": 330,
+      "total_epochs": 330,
+      "dmc": 332857.2,
+      "ard": 3298.9,
+      "total_floats": 9890,
+      "n_params": 1281,
+      "elapsed_s": 0.75,
+      "U_dmc": 165953.2
+    },
+    {
+      "rank": 5,
+      "best_acc": 1.0,
+      "converged_epoch": 29,
+      "total_epochs": 29,
+      "dmc": 409517.6,
+      "ard": 3847.6,
+      "total_floats": 11195,
+      "n_params": 1501,
+      "elapsed_s": 0.07,
+      "U_dmc": 218890.4
+    },
+    {
+      "rank": 8,
+      "best_acc": 1.0,
+      "converged_epoch": 37,
+      "total_epochs": 37,
+      "dmc": 671135.6,
+      "ard": 5507.5,
+      "total_floats": 15110,
+      "n_params": 2161,
+      "elapsed_s": 0.08,
+      "U_dmc": 400179.2
+    },
+    {
+      "rank": 10,
+      "best_acc": 1.0,
+      "converged_epoch": 26,
+      "total_epochs": 26,
+      "dmc": 869102.6,
+      "ard": 6620.4,
+      "total_floats": 17720,
+      "n_params": 2601,
+      "elapsed_s": 0.06,
+      "U_dmc": 537840.1
+    },
+    {
+      "rank": 20,
+      "best_acc": 1.0,
+      "converged_epoch": 31,
+      "total_epochs": 31,
+      "dmc": 2091253.8,
+      "ard": 12212.7,
+      "total_floats": 30770,
+      "n_params": 4801,
+      "elapsed_s": 0.08,
+      "U_dmc": 1392137.9
+    }
+  ]
+}

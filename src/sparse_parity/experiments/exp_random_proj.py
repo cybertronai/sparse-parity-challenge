@@ -10,7 +10,7 @@ Expected C(n,k) evaluations on average (geometric distribution), but early
 stopping means we don't always scan the full space.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_random_proj.py
 """
 

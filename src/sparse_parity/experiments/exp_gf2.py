@@ -16,7 +16,7 @@ The key insight: parity over {-1,+1} is equivalent to XOR over {0,1}.
   - The solution vector has 1s at the secret bit positions.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_gf2.py
 """
 

@@ -10,7 +10,7 @@ For sparse parity with k=3, this should need ~O(n) influence queries + O(1)
 verification, far fewer total samples than brute-force Fourier.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_km.py
 """
 

@@ -18,7 +18,7 @@ Answers: Can execution reordering reduce energy without changing the
 learning algorithm (SGD)?
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_pebble_game.py
 """
 

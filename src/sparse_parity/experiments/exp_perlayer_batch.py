@@ -21,7 +21,7 @@ Method:
   Report: avg epochs_to_solve, avg wall_time for each variant
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_perlayer_batch
 """
 

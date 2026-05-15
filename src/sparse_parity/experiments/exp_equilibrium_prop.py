@@ -20,7 +20,7 @@ Clamped phase: add beta * cost term, re-settle (~20-50 steps)
 Weight update: dW = (1/beta) * (s_i_clamped * s_j_clamped - s_i_free * s_j_free)
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_equilibrium_prop.py
 """
 

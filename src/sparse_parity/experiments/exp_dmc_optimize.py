@@ -19,7 +19,7 @@ Approaches tested:
   D. KM-min + verify: Minimal KM with inline verification
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_dmc_optimize.py
 """
 

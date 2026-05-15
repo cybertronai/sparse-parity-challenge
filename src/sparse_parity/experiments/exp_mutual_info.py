@@ -11,7 +11,7 @@ Method: Exhaustive search over all C(n,k) subsets. For each subset S,
 compute prod(x[:, S]) and measure MI with y using a 2x2 contingency table.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_mutual_info.py
 """
 

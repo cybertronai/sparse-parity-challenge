@@ -20,7 +20,7 @@ Architecture:
   - Inverse g_i trained alongside: ||g_i(f_i(input_i)) - input_i||^2
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_target_prop.py
 """
 

@@ -12,7 +12,7 @@ We test: DecisionTreeClassifier, RandomForestClassifier, ExtraTreesClassifier
 at max_depth=k and max_depth=2*k, across configs n=20/k=3, n=50/k=3, n=20/k=5.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_decision_tree.py
 """
 

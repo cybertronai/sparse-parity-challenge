@@ -10,7 +10,7 @@ We find it by testing correlations: for each k-subset, compute
 mean(y * product(x[:, S], axis=1)). The true subset has correlation ~1.0.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_fourier
 """
 

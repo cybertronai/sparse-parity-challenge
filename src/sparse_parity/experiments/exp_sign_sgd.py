@@ -9,7 +9,7 @@ Key change: W -= lr * sign(grad) instead of W -= lr * grad
 Weight decay applied separately (not inside sign).
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_sign_sgd
 """
 

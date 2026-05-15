@@ -21,7 +21,7 @@ Structure:
   Part 2: Accuracy verification (hidden=500, max_epochs=50) -- feasible in pure Python
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_tiled_w1.py
 """
 

@@ -9,7 +9,7 @@ Sweeps WD in [0.001, 0.01, 0.05, 0.1, 0.5, 1.0, 2.0] with 5 seeds each.
 Adapted from fast.py (numpy-accelerated training).
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_wd_sweep
 """
 

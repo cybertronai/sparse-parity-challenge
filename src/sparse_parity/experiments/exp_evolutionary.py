@@ -9,7 +9,7 @@ should need ~C(n,k) tries on average; evolutionary search should beat that.
 This is a BLANK SLATE approach — no neural net, no SGD, no gradients.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_evolutionary
 """
 

@@ -18,7 +18,7 @@ Variants tested:
 Layer 2 is always supervised: dW2 = lr * (y - y_hat) * h
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_hebbian.py
 """
 

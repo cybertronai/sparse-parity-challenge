@@ -14,7 +14,7 @@ just flips the sign. The effective search is for products of k variables.
 We use parsimony pressure and validation to prevent overfitting.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_genetic_prog.py
 """
 

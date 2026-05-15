@@ -15,7 +15,7 @@ Two approaches:
      epsilon-greedy exploration.
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_rl.py
 """
 

@@ -10,7 +10,7 @@ Answers: TODO.md "SGD Under 10ms" / EGD hypothesis
          DISCOVERIES.md Q6 (tiled W1) tangentially
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 -m sparse_parity.experiments.exp_egd
 """
 

@@ -10,7 +10,7 @@ Answers: Open question #3 from DISCOVERIES.md —
 then increase n. Transfer the learned feature detector."
 
 Usage:
-    cd /Users/yadkonrad/dev_dev/year26/feb26/SutroYaro
+    cd path/to/sparse-parity-challenge
     PYTHONPATH=src python3 src/sparse_parity/experiments/exp_curriculum.py
 """
 
